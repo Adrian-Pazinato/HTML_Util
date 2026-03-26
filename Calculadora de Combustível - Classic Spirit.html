@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Combustível</title>
+    <link rel="icon" type="image/x-icon" href="https://icons.iconarchive.com/icons/gartoon-team/gartoon-apps/256/preferences-desktop-locale-mouth-lips-icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 w-full max-w-md">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Calculadora de Combustível</h1>
+        <p class="text-gray-600 text-center mb-6">GM Chevrolet Classic Spirit 1.0</p>
+
+        <div class="mb-4">
+            <label for="distancia" class="block text-gray-700 text-sm font-medium mb-2">
+                Distância (km):
+            </label>
+            <input type="number" id="distancia"
+                class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200"
+                placeholder="Ex: 250" required />
+        </div>
+
+        <div class="mb-4">
+            <label for="valorGasolina" class="block text-gray-700 text-sm font-medium mb-2">
+                Valor da Gasolina (R$ por litro):
+            </label>
+            <input type="number" id="valorGasolina" step="0.01"
+                class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200"
+                placeholder="Ex: 5.50" required />
+        </div>
+
+        <div class="mb-4">
+            <label for="tipoTrajeto" class="block text-gray-700 text-sm font-medium mb-2">
+                Tipo de Trajeto:
+            </label>
+            <select id="tipoTrajeto"
+                class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200">
+                <option value="cidade">Cidade (Misto)</option>
+                <option value="estrada">Estrada</option>
+            </select>
+        </div>
+
+        <div class="mb-6">
+            <label for="tempoViagem" class="block text-gray-700 text-sm font-medium mb-2">
+                Tempo de Viagem (horas):
+            </label>
+            <input type="number" id="tempoViagem" step="0.1"
+                class="shadow-sm appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200"
+                placeholder="Ex: 2.5 (para 2 horas e 30 min)" />
+        </div>
+
+        <button onclick="calcularGasto()"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition duration-200 ease-in-out transform hover:scale-105">
+            Calcular Gasto
+        </button>
+
+        <div class="mt-8 bg-blue-50 p-6 rounded-lg border border-blue-200">
+            <h2 class="text-xl font-semibold text-blue-800 mb-3">Resultados da Viagem:</h2>
+            <p class="text-gray-700 text-lg mb-2">
+                <strong class="text-blue-600">Litros Gastos:</strong> <span id="litros" class="font-bold">0,00</span> L
+            </p>
+            <p class="text-700 text-lg mb-2">
+                <strong class="text-blue-600">Custo Total:</strong> R$ <span id="custo" class="font-bold">0,00</span>
+            </p>
+            <p class="text-gray-700 text-lg mb-2">
+                <strong class="text-blue-600">Volume do Tanque:</strong> <span class="font-bold">46</span> L
+            </p>
+            <p class="text-gray-700 text-lg mb-4">
+                <strong class="text-blue-600">Tanques Necessários:</strong> <span id="tanquesNecessarios"
+                    class="font-bold">0,00</span>
+            </p>
+
+            <p class="text-gray-700 text-lg mb-4">
+                <strong class="text-blue-600">Velocidade Média:</strong> <span id="velocidadeMedia"
+                    class="font-bold">0,00</span> KM/h
+            </p>
+
+            <h3 class="text-lg font-semibold text-blue-700 mb-2">Consumo do Tanque:</h3>
+            <div class="w-full bg-gray-200 rounded-full h-4 mb-2 relative overflow-hidden">
+                <div id="progressBar" class="bg-green-500 h-full rounded-full transition-all duration-500 ease-out"
+                    style="width: 0%;"></div>
+            </div>
+            <p class="text-center text-sm text-gray-600">
+                <span id="progressPercentage" class="font-semibold">0%</span> do tanque
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function calcularGasto() {
+            const distanciaInput = document.getElementById('distancia');
+            const valorGasolinaInput = document.getElementById('valorGasolina');
+            const tipoTrajetoSelect = document.getElementById('tipoTrajeto');
+            const tempoViagemInput = document.getElementById('tempoViagem'); // Novo campo de tempo
+
+            const distancia = parseFloat(distanciaInput.value);
+            const valorGasolina = parseFloat(valorGasolinaInput.value);
+            const tipoTrajeto = tipoTrajetoSelect.value;
+            const tempoViagem = parseFloat(tempoViagemInput.value); // Valor do tempo de viagem
+
+            if (isNaN(distancia) || isNaN(valorGasolina) || distancia <= 0 || valorGasolina <= 0) {
+                document.getElementById('litros').textContent = 'Inválido';
+                document.getElementById('custo').textContent = 'Inválido';
+                document.getElementById('tanquesNecessarios').textContent = 'Inválido';
+                document.getElementById('velocidadeMedia').textContent = 'Inválido'; // Reseta a velocidade média também
+                document.getElementById('progressBar').style.width = '0%';
+                document.getElementById('progressPercentage').textContent = '0%';
+                alert("Por favor, insira valores positivos e válidos para distância e valor da gasolina.");
+                return;
+            }
+
+            const consumoCidade = 10;
+            const consumoEstrada = 14;
+            const capacidadeTanque = 46;
+
+            let consumoPorL;
+            if (tipoTrajeto === 'cidade') {
+                consumoPorL = consumoCidade;
+            } else {
+                consumoPorL = consumoEstrada;
+            }
+
+            const litrosNecessarios = distancia / consumoPorL;
+            const custoTotal = litrosNecessarios * valorGasolina;
+            const tanquesNecessarios = litrosNecessarios / capacidadeTanque;
+
+            let porcentagemTanqueUsado = (litrosNecessarios / capacidadeTanque) * 100;
+            if (porcentagemTanqueUsado > 100) {
+                porcentagemTanqueUsado = 100;
+            }
+
+            let velocidadeMedia = 0;
+            if (!isNaN(tempoViagem) && tempoViagem > 0) {
+                velocidadeMedia = distancia / tempoViagem;
+            } else {
+                document.getElementById('velocidadeMedia').textContent = 'N/A'; // Se o tempo não for válido
+            }
+
+            document.getElementById('litros').textContent = litrosNecessarios.toFixed(2).replace('.', ',');
+            document.getElementById('custo').textContent = custoTotal.toFixed(2).replace('.', ',');
+            document.getElementById('tanquesNecessarios').textContent = tanquesNecessarios.toFixed(2).replace('.', ',');
+
+            if (!isNaN(tempoViagem) && tempoViagem > 0) {
+                document.getElementById('velocidadeMedia').textContent = velocidadeMedia.toFixed(2).replace('.', ',');
+            }
+
+
+            document.getElementById('progressBar').style.width = porcentagemTanqueUsado.toFixed(2) + '%';
+            document.getElementById('progressPercentage').textContent = porcentagemTanqueUsado.toFixed(2).replace('.', ',') + '%';
+        }
+    </script>
+</body>
+
+</html>

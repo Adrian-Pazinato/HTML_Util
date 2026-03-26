@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://img.icons8.com/?size=60&id=jCITQYYz3PVl&format=png">
+    <title>Calculadora de Grid Roll20</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            /* Garante que o padding não aumente a largura total */
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .resultado {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #28a745;
+            background-color: #e2f9e7;
+            border-radius: 4px;
+        }
+
+        .resultado p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Conversor de Resolução para Grid de RPG</h2>
+
+        <label for="resolucao">Resolução (Largura x Altura em Pixels):</label>
+        <input type="text" id="resolucao" value="2572x1440" placeholder="Ex: 2572x1440">
+
+        <label for="pixelsPorCelula">Pixels por Célula (Tamanho da Célula):</label>
+        <input type="number" id="pixelsPorCelula" value="70" min="1" placeholder="Ex: 70">
+
+        <label for="metrosPorCelula">Metros por Célula (Escala de Jogo):</label>
+        <input type="number" id="metrosPorCelula" value="1.5" min="0.1" step="0.1" placeholder="Ex: 1.5">
+
+        <button onclick="calcularConversao()">Calcular Conversão</button>
+
+        <div id="resultado" class="resultado" style="display:none;">
+            <h3>Resultado da Conversão:</h3>
+            <p id="grid"></p>
+            <p id="tamanhoReal"></p>
+            <p id="pixelsUsados"></p>
+            <p id="pixelsNaoUsados"></p>
+        </div>
+    </div>
+
+    <script>
+        function calcularConversao() {
+            // 1. Coletar e validar os dados de entrada
+            const resolucaoStr = document.getElementById('resolucao').value.trim();
+            const pixelsPorCelula = parseFloat(document.getElementById('pixelsPorCelula').value);
+            const metrosPorCelula = parseFloat(document.getElementById('metrosPorCelula').value);
+
+            if (!resolucaoStr || isNaN(pixelsPorCelula) || isNaN(metrosPorCelula) || pixelsPorCelula <= 0 || metrosPorCelula <= 0) {
+                alert("Por favor, preencha todos os campos com valores válidos.");
+                return;
+            }
+
+            const partesResolucao = resolucaoStr.split(/[xX]/);
+            if (partesResolucao.length !== 2) {
+                alert("O formato da resolução deve ser 'Largura x Altura' (Ex: 4200x4760).");
+                return;
+            }
+
+            const larguraPx = parseInt(partesResolucao[0].trim());
+            const alturaPx = parseInt(partesResolucao[1].trim());
+
+            if (isNaN(larguraPx) || isNaN(alturaPx) || larguraPx <= 0 || alturaPx <= 0) {
+                alert("Os valores de largura e altura devem ser números positivos.");
+                return;
+            }
+
+            // 2. Calcular o Total de Células (Arredondamento para baixo)
+            const totalCelulasLargura = Math.floor(larguraPx / pixelsPorCelula);
+            const totalCelulasAltura = Math.floor(alturaPx / pixelsPorCelula);
+
+            // 3. Calcular a Dimensão Física Real (em Metros)
+            const larguraMetros = totalCelulasLargura * metrosPorCelula;
+            const alturaMetros = totalCelulasAltura * metrosPorCelula;
+
+            // 4. Calcular o aproveitamento (Pixels Usados e Não Usados)
+            const pixelsUsadosLargura = totalCelulasLargura * pixelsPorCelula;
+            const pixelsUsadosAltura = totalCelulasAltura * pixelsPorCelula;
+
+            const pixelsNaoUsadosLargura = larguraPx - pixelsUsadosLargura;
+            const pixelsNaoUsadosAltura = alturaPx - pixelsUsadosAltura;
+
+            // 5. Exibir os resultados
+            document.getElementById('grid').innerHTML = `**Grid Final:** ${totalCelulasLargura} x ${totalCelulasAltura} células`;
+            document.getElementById('tamanhoReal').innerHTML = `**Tamanho Real do Mapa:** ${larguraMetros.toFixed(1)}m (largura) x ${alturaMetros.toFixed(1)}m (altura)`;
+
+            document.getElementById('pixelsUsados').innerHTML = `**Pixels Usados pelo Grid:** ${pixelsUsadosLargura} x ${pixelsUsadosAltura} px`;
+            document.getElementById('pixelsNaoUsados').innerHTML = `**Margem/Borda:** ${pixelsNaoUsadosLargura} px (largura) e ${pixelsNaoUsadosAltura} px (altura)`;
+
+            document.getElementById('resultado').style.display = 'block';
+        }
+    </script>
+
+</body>
+
+</html>
