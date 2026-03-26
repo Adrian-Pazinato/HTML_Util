@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,72 +8,81 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* Tailwind gray-100 */
+            background-color: #f3f4f6;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Align to top to allow scrolling if content is tall */
+            align-items: flex-start;
             min-height: 100vh;
             padding: 20px;
             box-sizing: border-box;
         }
+
         .container {
             background-color: #ffffff;
-            border-radius: 1rem; /* rounded-xl */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             padding: 2rem;
             max-width: 900px;
             width: 100%;
             text-align: center;
         }
+
         canvas {
-            border: 1px solid #e5e7eb; /* Tailwind gray-200 */
-            border-radius: 0.5rem; /* rounded-lg */
-            background-color: #f9fafb; /* Tailwind gray-50 */
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            background-color: #f9fafb;
             max-width: 100%;
             height: auto;
-            display: block; /* Remove extra space below canvas */
-            margin: 0 auto; /* Center the canvas */
-            cursor: grab; /* Default cursor for canvas */
+            display: block;
+            margin: 0 auto;
+            cursor: grab;
         }
+
         canvas.grabbing {
-            cursor: grabbing; /* Cursor when dragging */
+            cursor: grabbing;
         }
+
         input[type="range"] {
             -webkit-appearance: none;
             width: 100%;
             height: 8px;
-            background: #d1d5db; /* Tailwind gray-300 */
+            background: #d1d5db;
             border-radius: 5px;
             outline: none;
             opacity: 0.7;
             -webkit-transition: .2s;
             transition: opacity .2s;
         }
+
         input[type="range"]:hover {
             opacity: 1;
         }
+
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #3b82f6; /* Tailwind blue-500 */
+            background: #3b82f6;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
+
         input[type="range"]::-moz-range-thumb {
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #3b82f6; /* Tailwind blue-500 */
+            background: #3b82f6;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1 class="text-3xl font-bold text-gray-800 mb-6">Criador de Imagens Widescreen</h1>
@@ -84,7 +94,8 @@
             <label for="imageUpload" class="block text-lg font-medium text-gray-700 mb-2">
                 Carregar Imagem:
             </label>
-            <input type="file" id="imageUpload" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer">
+            <input type="file" id="imageUpload" accept="image/*"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer">
         </div>
 
         <div class="mb-6">
@@ -123,7 +134,8 @@
                 <label for="outputFormat" class="block text-lg font-medium text-gray-700 mb-2">
                     Formato de Saída:
                 </label>
-                <select id="outputFormat" class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer">
+                <select id="outputFormat"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer">
                     <option value="image/png">PNG (Sem perdas, maior arquivo)</option>
                     <option value="image/jpeg">JPEG (Com perdas, menor arquivo)</option>
                 </select>
@@ -138,7 +150,8 @@
 
         <canvas id="imageCanvas" class="mb-6"></canvas>
 
-        <button id="downloadBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        <button id="downloadBtn"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
             Baixar Imagem Widescreen
         </button>
     </div>
@@ -162,17 +175,14 @@
         const downloadBtn = document.getElementById('downloadBtn');
 
         let originalImage = null;
-        let originalFileName = 'imagem-widescreen'; // Default filename
-        const WIDESCREEN_ASPECT_RATIO = 16 / 9; // Define a proporção widescreen
+        let originalFileName = 'imagem-widescreen';
+        const WIDESCREEN_ASPECT_RATIO = 16 / 9;
 
-        // Variáveis para arrastar a imagem principal
         let isDragging = false;
         let dragStartX, dragStartY;
-        let fgOffsetX = 0; // Current offset from the center due to dragging
-        let fgOffsetY = 0; // Current offset from the center due to dragging
+        let fgOffsetX = 0;
+        let fgOffsetY = 0;
 
-        // Função para aplicar um desfoque simples (aproximação de Box Blur)
-        // Mais eficiente que desenhar muitas vezes, mas ainda uma aproximação
         function applySimpleBlur(context, imageData, radius) {
             if (radius === 0) return;
 
@@ -186,14 +196,11 @@
             tempCanvas.height = height;
             tempCtx.putImageData(imageData, 0, 0);
 
-            // Aplica o filtro de desfoque CSS no canvas temporário
-            // Nota: Esta abordagem usa o filtro CSS 'blur' que é mais performático e de alta qualidade
-            // do que uma implementação manual de box blur pixel a pixel.
             tempCtx.filter = `blur(${radius}px)`;
-            tempCtx.drawImage(tempCanvas, 0, 0); // Redesenha com o filtro aplicado
+            tempCtx.drawImage(tempCanvas, 0, 0);
 
             context.drawImage(tempCanvas, 0, 0, width, height);
-            tempCtx.filter = 'none'; // Reseta o filtro para não afetar futuras operações
+            tempCtx.filter = 'none';
         }
 
 
@@ -209,17 +216,11 @@
             bgPositionYValueSpan.textContent = currentBgPositionY;
 
             const currentFgScale = parseFloat(fgScaleSlider.value);
-            fgScaleValueSpan.textContent = (currentFgScale * 100).toFixed(0); // Display as percentage
+            fgScaleValueSpan.textContent = (currentFgScale * 100).toFixed(0);
 
-            // Calcular as dimensões do canvas widescreen
             const originalWidth = originalImage.width;
             const originalHeight = originalImage.height;
 
-            // Ajusta as dimensões do canvas para que a imagem original caiba perfeitamente
-            // e o fundo desfocado preencha o restante da área widescreen.
-            // Para garantir que o fundo desfocado preencha todo o widescreen,
-            // o canvas deve ter as dimensões finais do widescreen.
-            // A imagem original será centralizada dentro dessas dimensões.
             const targetWidth = Math.max(originalWidth, originalHeight * WIDESCREEN_ASPECT_RATIO);
             const targetHeight = targetWidth / WIDESCREEN_ASPECT_RATIO;
 
@@ -228,8 +229,6 @@
 
             ctx.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
 
-            // 1. Desenhar a imagem de fundo desfocada
-            // Calcular as dimensões para cobrir todo o canvas widescreen
             let bgSourceX = 0, bgSourceY = 0, bgSourceWidth = originalWidth, bgSourceHeight = originalHeight;
             let bgDestX = 0, bgDestY = 0, bgDestWidth = imageCanvas.width, bgDestHeight = imageCanvas.height;
 
@@ -237,42 +236,29 @@
             const canvasAspectRatio = imageCanvas.width / imageCanvas.height;
 
             if (bgAspectRatio > canvasAspectRatio) {
-                // Imagem é mais larga que o canvas.
-                // Ajusta a largura da fonte para cobrir a altura do canvas na proporção widescreen.
                 bgSourceWidth = originalHeight * canvasAspectRatio;
                 const excessWidth = originalWidth - bgSourceWidth;
-                // Calcula bgSourceX com base no slider de posição horizontal.
-                // O slider vai de -50 a 50. Mapeamos isso para 0 a 100% do excesso.
                 bgSourceX = excessWidth * ((currentBgPositionX + 50) / 100);
             } else {
-                // Imagem é mais alta que o canvas.
-                // Ajusta a altura da fonte para cobrir a largura do canvas na proporção widescreen.
                 bgSourceHeight = originalWidth / canvasAspectRatio;
                 const excessHeight = originalHeight - bgSourceHeight;
-                // Calcula bgSourceY com base no slider de posição vertical.
-                // O slider vai de -50 a 50. Mapeamos isso para 0 a 100% do excesso.
                 bgSourceY = excessHeight * ((currentBgPositionY + 50) / 100);
             }
 
-            // Desenha a imagem original no canvas temporário, cobrindo todo o espaço
             const tempOffscreenCanvas = document.createElement('canvas');
             const tempOffscreenCtx = tempOffscreenCanvas.getContext('2d');
             tempOffscreenCanvas.width = imageCanvas.width;
             tempOffscreenCanvas.height = imageCanvas.height;
             tempOffscreenCtx.drawImage(originalImage, bgSourceX, bgSourceY, bgSourceWidth, bgSourceHeight, 0, 0, bgDestWidth, bgDestHeight);
 
-            // Obtém os dados de pixel do canvas temporário
             const imageData = tempOffscreenCtx.getImageData(0, 0, tempOffscreenCanvas.width, tempOffscreenCanvas.height);
 
-            // Aplica o desfoque diretamente no canvas principal
             applySimpleBlur(ctx, imageData, currentBlurRadius);
 
 
-            // 2. Desenhar a imagem original centralizada (imagem principal)
             const imgAspectRatio = originalWidth / originalHeight;
             let imgDrawWidth, imgDrawHeight;
 
-            // Ajustar para caber dentro do canvas, mantendo a proporção
             if (imgAspectRatio > WIDESCREEN_ASPECT_RATIO) {
                 imgDrawWidth = imageCanvas.width;
                 imgDrawHeight = imgDrawWidth / imgAspectRatio;
@@ -281,35 +267,30 @@
                 imgDrawWidth = imgDrawHeight * imgAspectRatio;
             }
 
-            // Aplicar o zoom (escala)
             imgDrawWidth *= currentFgScale;
             imgDrawHeight *= currentFgScale;
 
-            // Calcular a posição central inicial
             let imgX = (imageCanvas.width - imgDrawWidth) / 2;
             let imgY = (imageCanvas.height - imgDrawHeight) / 2;
 
-            // Aplicar o deslocamento de arrastar
             imgX += fgOffsetX;
             imgY += fgOffsetY;
 
             ctx.drawImage(originalImage, imgX, imgY, imgDrawWidth, imgDrawHeight);
         }
 
-        // Event Listeners
         imageUpload.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
-                originalFileName = file.name.split('.').slice(0, -1).join('.'); // Store original filename without extension
+                originalFileName = file.name.split('.').slice(0, -1).join('.');
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     originalImage = new Image();
                     originalImage.onload = () => {
-                        // Reset drag and scale state when new image is loaded
                         isDragging = false;
                         fgOffsetX = 0;
                         fgOffsetY = 0;
-                        fgScaleSlider.value = 1.0; // Reset scale slider
+                        fgScaleSlider.value = 1.0;
                         drawImageOnCanvas();
                     };
                     originalImage.src = e.target.result;
@@ -321,43 +302,40 @@
         blurRadiusSlider.addEventListener('input', drawImageOnCanvas);
         bgPositionXSlider.addEventListener('input', drawImageOnCanvas);
         bgPositionYSlider.addEventListener('input', drawImageOnCanvas);
-        fgScaleSlider.addEventListener('input', drawImageOnCanvas); // Listen for scale changes
+        fgScaleSlider.addEventListener('input', drawImageOnCanvas);
 
-        // Drag functionality for foreground image
         imageCanvas.addEventListener('mousedown', (e) => {
-            if (!originalImage) return; // Only allow dragging if an image is loaded
+            if (!originalImage) return;
             isDragging = true;
             dragStartX = e.clientX;
             dragStartY = e.clientY;
-            imageCanvas.classList.add('grabbing'); // Change cursor
+            imageCanvas.classList.add('grabbing');
         });
 
         imageCanvas.addEventListener('mousemove', (e) => {
             if (!isDragging) return;
-            // Calculate new offset based on mouse movement
             fgOffsetX += (e.clientX - dragStartX);
             fgOffsetY += (e.clientY - dragStartY);
-            dragStartX = e.clientX; // Update start position for next move
-            dragStartY = e.clientY; // Update start position for next move
-            drawImageOnCanvas(); // Redraw with new offset
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            drawImageOnCanvas();
         });
 
         imageCanvas.addEventListener('mouseup', () => {
             isDragging = false;
-            imageCanvas.classList.remove('grabbing'); // Reset cursor
+            imageCanvas.classList.remove('grabbing');
         });
 
         imageCanvas.addEventListener('mouseleave', () => {
-            if (isDragging) { // If mouse leaves while dragging, stop dragging
+            if (isDragging) {
                 isDragging = false;
-                imageCanvas.classList.remove('grabbing'); // Reset cursor
+                imageCanvas.classList.remove('grabbing');
             }
         });
 
-        // Touch events for mobile
         imageCanvas.addEventListener('touchstart', (e) => {
             if (!originalImage) return;
-            e.preventDefault(); // Prevent scrolling on touch
+            e.preventDefault();
             isDragging = true;
             dragStartX = e.touches[0].clientX;
             dragStartY = e.touches[0].clientY;
@@ -365,7 +343,7 @@
 
         imageCanvas.addEventListener('touchmove', (e) => {
             if (!isDragging) return;
-            e.preventDefault(); // Prevent scrolling on touch
+            e.preventDefault();
             fgOffsetX += (e.touches[0].clientX - dragStartX);
             fgOffsetY += (e.touches[0].clientY - dragStartY);
             dragStartX = e.touches[0].clientX;
@@ -397,7 +375,7 @@
         downloadBtn.addEventListener('click', () => {
             if (originalImage) {
                 const format = outputFormatSelect.value;
-                let filename = originalFileName; // Use the stored original filename
+                let filename = originalFileName;
                 let dataURL;
 
                 if (format === 'image/jpeg') {
@@ -416,23 +394,22 @@
                 link.click();
                 document.body.removeChild(link);
             } else {
-                alert('Por favor, carregue uma imagem primeiro!'); // Using alert for simplicity, but a custom modal would be better in a production app.
+                alert('Por favor, carregue uma imagem primeiro!');
             }
         });
 
-        // Inicializa o canvas com um tamanho padrão ou uma imagem de placeholder
         window.onload = () => {
-            // Define um tamanho inicial para o canvas
             imageCanvas.width = 800;
             imageCanvas.height = 800 / WIDESCREEN_ASPECT_RATIO;
-            ctx.fillStyle = '#e0e7ff'; // Tailwind indigo-100
+            ctx.fillStyle = '#e0e7ff';
             ctx.fillRect(0, 0, imageCanvas.width, imageCanvas.height);
             ctx.font = '24px Inter';
-            ctx.fillStyle = '#6366f1'; // Tailwind indigo-500
+            ctx.fillStyle = '#6366f1';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText('Carregue uma imagem', imageCanvas.width / 2, imageCanvas.height / 2);
         };
     </script>
 </body>
+
 </html>

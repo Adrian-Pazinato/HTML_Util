@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autorização para Registro de Ponto Eletrônico</title>
+    <link rel="shortcut icon" href="https://img.icons8.com/?size=48&id=58782&format=png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-light: #f4f4f7;
+            --color-white: #ffffff;
+            --color-gray-100: #f3f4f6;
+            --color-gray-200: #e5e7eb;
+            --color-gray-300: #d1d5db;
+            --color-gray-500: #6b7280;
+            --color-gray-600: #4b5563;
+            --color-gray-700: #374151;
+            --color-gray-800: #1f2937;
+            --color-green-500: #10b981;
+            --color-green-600: #059669;
+            --color-indigo-500: #6366f1;
+            --color-indigo-600: #4f46e5;
+            --color-indigo-700: #4338ca;
+            --color-red-500: #ef4444;
+            --color-red-700: #b91c1c;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            --shadow-xl: 0 20px 25px 5px rgba(0, 0, 0, 0.527), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg-light);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .document-container {
+            max-width: 64rem;
+            width: 100%;
+            background-color: var(--color-white);
+            padding: 3rem;
+            box-shadow: var(--shadow-xl);
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--color-gray-200);
+            padding-bottom: 1rem;
+        }
+
+        .logo-img {
+            width: 3rem;
+            height: 3rem;
+            margin-right: 1rem;
+        }
+
+        .title-main {
+            font-size: 1.5rem;
+            line-height: 2rem;
+            font-weight: 700;
+            color: var(--color-gray-800);
+            letter-spacing: -0.025em;
+        }
+
+        .space-y-6>*+* {
+            margin-top: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--color-gray-700);
+        }
+
+        /* Input / Textarea Group */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--color-gray-300);
+            border-radius: 0.375rem;
+        }
+
+        .input-field:focus {
+            border-color: var(--color-indigo-500);
+            outline: none;
+            box-shadow: 0 0 0 1px var(--color-indigo-500);
+        }
+
+        /* Tabela Dinâmica */
+        .table-container {
+            overflow-x-auto;
+            border: 1px solid var(--color-gray-300);
+            border-radius: 0.5rem;
+        }
+
+        .time-table {
+            min-width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            /* Ajuda a manter o layout consistente */
+        }
+
+        .time-table thead {
+            background-color: var(--color-gray-100);
+        }
+
+        .time-table th {
+            padding: 0.75rem 0.75rem;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--color-gray-700);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--color-gray-300);
+        }
+
+        .time-table tbody tr {
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .time-table td {
+            padding: 0.75rem 0.75rem;
+            white-space: nowrap;
+            font-size: 0.875rem;
+            color: var(--color-gray-500);
+        }
+
+        .time-table input[type="date"],
+        .time-table input[type="time"] {
+            width: 100%;
+            font-size: 1rem;
+            padding: 0.25rem;
+            border: 1px solid var(--color-gray-200);
+            border-radius: 0.25rem;
+        }
+
+        .time-table input:focus {
+            border-color: var(--color-gray-500);
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* Botão Adicionar Linha */
+        .add-row-container {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-add {
+            padding: 0.5rem 1rem;
+            background-color: var(--color-green-500);
+            color: var(--color-white);
+            font-weight: 600;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-md);
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            font-size: 0.875rem;
+        }
+
+        .btn-add:hover {
+            background-color: var(--color-green-600);
+        }
+
+        .btn-add:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-green-500);
+            outline-offset: 2px;
+        }
+
+        .btn-add:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-add svg {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.25rem;
+        }
+
+        /* Botão Remover Linha */
+        .btn-remove {
+            padding: 0.25rem;
+            color: var(--color-red-500);
+            transition: color 0.15s ease-in-out;
+        }
+
+        .btn-remove:hover {
+            color: var(--color-red-700);
+        }
+
+        .btn-remove:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Assinaturas */
+        .signature-container {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 2.5rem;
+            margin-top: 2.5rem;
+            gap: 2rem;
+        }
+
+        .signature-box {
+            flex: 1;
+            text-align: center;
+        }
+
+        .signature-line {
+            width: 100%;
+            height: 1px;
+            background-color: var(--color-gray-600);
+            margin-bottom: 0.25rem;
+        }
+
+        .signature-text {
+            font-size: 0.875rem;
+            color: var(--color-gray-700);
+        }
+
+        /* Botão Imprimir */
+        .print-area {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--color-gray-200);
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-print {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--color-indigo-600);
+            color: var(--color-white);
+            font-weight: 600;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-md);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-print:hover {
+            background-color: var(--color-indigo-700);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-print:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-indigo-500);
+            outline-offset: 2px;
+        }
+
+        .btn-print svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-right: 0.5rem;
+        }
+
+        .logo-img {
+            width: 4rem;
+            height: 3.5rem;
+        }
+
+
+        /* Responsividade para Telas Menores */
+        @media (max-width: 768px) {
+            .document-container {
+                padding: 2rem;
+            }
+
+            .title-main {
+                font-size: 1.25rem;
+            }
+
+            .logo-img {
+                width: 3.5rem;
+                height: 2.5rem;
+            }
+
+            .signature-container {
+                flex-direction: column;
+                gap: 2rem;
+                padding-top: 1.5rem;
+                margin-top: 1.5rem;
+            }
+        }
+
+        /* Estilo para inputs na impressão */
+        @media print {
+            body {
+                background-color: white !important;
+                box-shadow: none !important;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .print-hidden {
+                display: none !important;
+            }
+
+            input,
+            textarea {
+                /* Remove bordas e fundo dos inputs e textareas para impressão limpa */
+                border: none !important;
+                background-color: transparent !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                /* Garante que a cor do texto seja impressa */
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+
+            .signature-line {
+                border-bottom: 1px solid black;
+            }
+
+            .document-container {
+                margin: 0 !important;
+                border: none !important;
+                padding: 20px !important;
+            }
+
+            .time-table input[type="date"],
+            .time-table input[type="time"] {
+                border: none;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="document-container">
+
+        <div class="header">
+            <img src="https://beeimg.com/images/a09447504762.png" alt="Logo FIDA" class="logo-img">
+            <h1 class="title-main">
+                Autorização para Registro de Ponto Eletrônico
+            </h1>
+        </div>
+
+        <div class="space-y-6">
+            <h2 class="section-title">Dados da Autorização</h2>
+
+            <!-- Campo Nome do Funcionário -->
+            <div class="input-group">
+                <label for="nomeFuncionario" class="input-label">Nome do Funcionário:</label>
+                <input id="nomeFuncionario" type="text" value="Adrian Pazinato" class="input-field"
+                    aria-label="Nome do Funcionário">
+            </div>
+
+            <h2 class="section-title">Datas e Horários do Registro</h2>
+
+            <!-- Tabela Dinâmica de Horários -->
+            <div class="table-container">
+                <table class="time-table">
+                    <thead>
+                        <tr>
+                            <th class="col-date">Data</th>
+                            <th>Entrada 1</th>
+                            <th>Saída 1</th>
+                            <th>Entrada 2</th>
+                            <th>Saída 2</th>
+                            <th class="print-hidden col-actions"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="timeEntryBody">
+                        <!-- Linhas de data e horário serão adicionadas aqui pelo JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Botão para Adicionar Linha -->
+            <div class="add-row-container print-hidden">
+                <button id="addRowButton" onclick="addRow()" class="btn-add"
+                    aria-label="Adicionar nova linha de data e horário">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    Adicionar Linha
+                </button>
+            </div>
+
+
+            <!-- Motivo -->
+            <div class="input-group">
+                <p class="input-label">Motivo da Autorização:</p>
+                <textarea id="motivo" rows="3" class="input-field"
+                    aria-label="Motivo da Autorização">Sem batida de ponto devido a ida a filial de Pantano e Escritório.</textarea>
+            </div>
+
+            <div class="signature-container">
+                <div class="signature-box">
+                    <div class="signature-line"></div>
+                    <p class="signature-text">Assinatura do Funcionário</p>
+                </div>
+                <div class="signature-box">
+                    <div class="signature-line"></div>
+                    <p class="signature-text">Assinatura do Gestor / RH</p>
+                </div>
+            </div>
+
+            <div class="print-area print-hidden">
+                <button onclick="window.print()" class="btn-print">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m0 0v1a2 2 0 002 2h2a2 2 0 002-2v-1m-4 1H9">
+                        </path>
+                    </svg>
+                    Imprimir Documento
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const MAX_ROWS = 10;
+        const timeEntryBody = document.getElementById('timeEntryBody');
+        const addRowButton = document.getElementById('addRowButton');
+
+        function createRow(initialDate = '') {
+            const row = document.createElement('tr');
+            row.classList.add('time-row'); // Classe para fácil contagem/seleção
+
+            const createInput = (type, value, label) => `
+                <input type="${type}" value="${value}"
+                    aria-label="${label}">
+            `;
+
+            row.innerHTML = `
+                <td>
+                    ${createInput('date', initialDate, 'Data do Ponto')}
+                </td>
+                <td>
+                    ${createInput('time', '07:30', 'Entrada 1')}
+                </td>
+                <td>
+                    ${createInput('time', '12:00', 'Saída 1')}
+                </td>
+                <td>
+                    ${createInput('time', '13:00', 'Entrada 2')}
+                </td>
+                <td>
+                    ${createInput('time', '17:30', 'Saída 2')}
+                </td>
+                <td class="print-hidden">
+                    <!-- Botão de remover linha -->
+                    <button onclick="removeRow(this)"
+                        class="btn-remove"
+                        aria-label="Remover linha">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                            </path>
+                        </svg>
+                    </button>
+                </td>
+            `;
+
+            return row;
+        }
+
+        function updateRowControls() {
+            const currentRowCount = timeEntryBody.querySelectorAll('.time-row').length;
+            const removeButtons = timeEntryBody.querySelectorAll('.btn-remove');
+
+            if (addRowButton) {
+                addRowButton.disabled = currentRowCount >= MAX_ROWS;
+            }
+
+            removeButtons.forEach(button => {
+                button.disabled = currentRowCount <= 1;
+            });
+        }
+
+        function addRow() {
+            if (timeEntryBody.querySelectorAll('.time-row').length < MAX_ROWS) {
+                const today = new Date().toISOString().slice(0, 10);
+                timeEntryBody.appendChild(createRow(today));
+                updateRowControls();
+            }
+        }
+
+        function removeRow(buttonElement) {
+            const row = buttonElement.closest('tr');
+            if (timeEntryBody.querySelectorAll('.time-row').length > 1) {
+                row.remove();
+                updateRowControls();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            addRow();
+            updateRowControls();
+        });
+    </script>
+</body>
+
+</html>

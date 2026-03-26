@@ -15,7 +15,7 @@
 
         .document-page {
             width: 210mm;
-            min-height: 148mm; /* Meia folha A4 aproximadamente */
+            min-height: 148mm;
             padding: 40px;
             margin: 20px auto;
             background: white;
@@ -53,7 +53,6 @@
             height: auto;
         }
 
-        /* Estilo para as linhas da justificativa */
         .justificativa-input {
             width: 100%;
             border: none;
@@ -69,7 +68,6 @@
 </head>
 <body class="p-4">
 
-    <!-- Painel de Controle (Não sai na impressão) -->
     <div class="max-w-4xl mx-auto mb-8 p-6 bg-white rounded-xl shadow-lg no-print">
         <h2 class="text-xl font-bold mb-4 text-gray-800">Controles de Preenchimento</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -89,9 +87,7 @@
         </div>
     </div>
 
-    <!-- Documento -->
     <div class="document-page" id="printableArea">
-        <!-- Cabeçalho -->
         <div class="header-border flex justify-between items-center">
             <div class="flex items-center">
                 <img id="logo-fida" src="https://i.imghippo.com/files/zwd1348CAk.png" alt="Logo FIDA">
@@ -106,20 +102,16 @@
             </div>
         </div>
 
-        <!-- Título -->
         <div class="text-center mb-10">
             <h2 class="text-2xl font-black tracking-[0.2em] border-b-2 border-black inline-block pb-1">AUTORIZAÇÃO DE HORA EXTRA</h2>
         </div>
 
-        <!-- Corpo do Formulário -->
         <div class="space-y-8 text-lg">
-            <!-- Linha 1 -->
             <div class="flex items-end">
                 <span class="whitespace-nowrap">Autorizo o Sr. (a)</span>
                 <input type="text" class="line-input flex-grow ml-2 font-bold" placeholder="Nome completo do colaborador">
             </div>
 
-            <!-- Linha 2 -->
             <div class="flex items-end gap-2">
                 <span class="whitespace-nowrap">Setor:</span>
                 <input type="text" class="line-input flex-grow font-bold" placeholder="Departamento">
@@ -127,20 +119,17 @@
                 <input type="text" id="displayHoras" class="line-input w-40 text-center font-bold text-blue-900" placeholder="0 horas" readonly>
             </div>
 
-            <!-- Linha 3 -->
             <div class="flex items-end gap-2">
                 <span class="whitespace-nowrap">extras, no dia</span>
                 <input type="date" class="line-input flex-grow font-bold">
                 <span class="whitespace-nowrap">.</span>
             </div>
 
-            <!-- Justificativa -->
             <div class="pt-4">
                 <label class="block mb-2 font-bold">Justificativa da hora extra:</label>
                 <textarea class="justificativa-input font-medium" rows="3"></textarea>
             </div>
 
-            <!-- Assinatura -->
             <div class="mt-20 flex justify-center">
                 <div class="w-3/4 text-center">
                     <div class="border-t border-black pt-2">
@@ -168,7 +157,6 @@
 
                 let totalMinutos = (h2 * 60 + m2) - (h1 * 60 + m1);
 
-                // Caso passe da meia-noite
                 if (totalMinutos < 0) {
                     totalMinutos += 24 * 60;
                 }

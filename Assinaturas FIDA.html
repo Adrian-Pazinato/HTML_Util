@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="https://www.fida.com.br/favicon.ico">
+    <title>Assinatura de E-mail Fida</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://i.ytimg.com/vi/SvQ7JvsJWw0/maxresdefault.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #f4f4f4;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2 {
+            color: #333;
+        }
+
+        #titulo-pagina {
+            color: #00b109;
+            text-align: center;
+            font-size: 44px;
+            font-family: 'Arial', sans-serif;
+            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .whatsapp-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .whatsapp-group input[type="tel"] {
+            flex-grow: 1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-family: 'Arial', sans-serif;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #000000;
+            border-radius: 4px;
+        }
+
+        #assinatura-preview {
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #ffffff;
+            border-radius: 15px;
+        }
+
+        #assinatura-preview table {
+            border-collapse: collapse;
+            background-color: #ffffff;
+        }
+
+        .copy-button {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: #008607;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #logoSelect {
+            background-color: #ffffff;
+            font-family: monospace;
+            font-weight: bolder;
+        }
+
+        .naomexer {
+            color: rgb(150, 0, 0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 id="titulo-pagina">Assinatura de E-mail Fida</h1>
+
+        <div class="form-group">
+            <label for="nome">Nome Completo</label>
+            <input type="text" id="nome" placeholder="Ex: Adrian Pazinato">
+        </div>
+
+        <div class="form-group">
+            <label for="cargo">Cargo</label>
+            <input type="text" id="cargo" placeholder="Ex: Auxiliar de T.I">
+        </div>
+
+        <!-- Grupo de WhatsApp com checkbox -->
+        <div class="form-group">
+            <label for="whatsapp">WhatsApp</label>
+            <div class="whatsapp-group">
+                <input type="tel" id="whatsapp" placeholder="Ex: 55 99999-9999">
+                <input type="checkbox" id="show-whatsapp" checked>
+                <label for="show-whatsapp">Mostrar WhatsApp</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" placeholder="Ex: fida@fida.com.br">
+        </div>
+
+        <div class="form-group">
+            <label for="logoSelect">Escolher imagem da assinatura:</label>
+            <select id="logoSelect">
+                <option value="https://beeimg.com/images/a09447504762.png">Fida</option>
+                <option value="https://beeimg.com/images/v31800965662.png">Fidagran</option>
+                <option value="https://beeimg.com/images/w31516760644.png">Mudador</option>
+                <option value="https://beeimg.com/images/s09458066821.png">Agro</option>
+
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="naomexer" for="telefone">Telefone (não mexer)</label>
+            <input type="tel" id="telefone" value="55 32810060">
+        </div>
+
+        <div class="form-group">
+            <label for="site" class="naomexer">Site Fida (não mexer)</label>
+            <input type="text" id="site" value="www.fida.com.br">
+        </div>
+
+        <h2>Assinatura</h2>
+        <div id="assinatura-preview" style="background-color: #ffffff;">
+        </div>
+        <button class="copy-button" onclick="copiarAssinatura()">Copiar Assinatura</button>
+    </div>
+
+    <script>
+        const nomeInput = document.getElementById('nome');
+        const cargoInput = document.getElementById('cargo');
+        const whatsappInput = document.getElementById('whatsapp');
+        const telefoneInput = document.getElementById('telefone');
+        const emailInput = document.getElementById('email');
+        const siteInput = document.getElementById('site');
+        const logoSelect = document.getElementById('logoSelect');
+        const showWhatsappCheckbox = document.getElementById('show-whatsapp'); // Referência ao novo checkbox
+        const previewDiv = document.getElementById('assinatura-preview');
+
+        function updateSignature() {
+            const nome = nomeInput.value || "Nome Completo";
+            const cargo = cargoInput.value || "Cargo";
+            const whatsapp = whatsappInput.value || "55 99999-9999";
+            const telefone = telefoneInput.value || "55 3281-0007";
+            const email = emailInput.value || "seu.email@fida.com.br";
+            const site = siteInput.value || "www.fida.com.br";
+            const showWhatsapp = showWhatsappCheckbox.checked; // Verifica se o checkbox está marcado
+
+            const selectedLogo = logoSelect.value;
+            const whatsappLink = whatsapp.replace(/[^0-9]/g, '');
+            const telefoneLink = telefone.replace(/[^0-9]/g, '');
+
+            // Constrói a linha do WhatsApp condicionalmente
+            const whatsappRow = showWhatsapp ? `
+                <tr style="vertical-align: middle; height: 25px;">
+                    <td width="30" style="vertical-align: middle;">
+                        <table cellpadding="0" cellspacing="0" border="0"
+                            style="vertical-align: -webkit-baseline-middle; font-size: medium; font-family: Arial;">
+                            <tbody>
+                                <tr>
+                                    <td style="vertical-align: bottom;">
+                                        <span style="display: inline-block;">
+                                            <img src="https://cdn-icons-png.flaticon.com/256/3536/3536445.png" alt="mobilePhone"
+                                                width="13" style="display: block;">
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="padding: 0px; color: rgb(0, 0, 0);">
+                        <a href="https://wa.me/${whatsappLink}"
+                            style="text-decoration: underline; color: #1155cc; font-size: 14px; cursor: pointer;">
+                            <span>${whatsapp}</span>
+                        </a>
+                    </td>
+                </tr>
+            ` : ''; // Se o checkbox não estiver marcado, a linha fica vazia
+
+            const signatureHTML = `
+                <table cellpadding="0" cellspacing="0" border="0"
+                    style="vertical-align: -webkit-baseline-middle; font-size: medium; font-family: Arial; background-color: #ffffff;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <table cellpadding="0" cellspacing="0" border="0"
+                                    style="vertical-align: -webkit-baseline-middle; font-size: medium; font-family: Arial;">
+                                    <tbody>
+                                        <tr>
+                                            <td width="150" style="vertical-align: middle;">
+                                                <span style="margin-right: 20px; display: block;">
+                                                    <img src="${selectedLogo}" role="presentation" width="130"
+                                                        style="max-width: 130px;">
+                                                </span>
+                                            </td>
+                                            <td style="vertical-align: middle;">
+                                                <h2 style="margin: 0px; font-size: 18px; font-family: Arial; color: rgb(0, 0, 0); font-weight: 600;">
+                                                    <span>${nome}</span>
+                                                </h2>
+                                                <p style="margin: 0px; color: rgb(0, 0, 0); font-size: 14px; line-height: 22px;">
+                                                    <span>${cargo}</span>
+                                                </p>
+                                                <div style="margin: 0px; font-weight: 500; color: rgb(0, 0, 0); font-size: 14px; line-height: 22px;">
+                                                    <span></span>
+                                                </div>
+                                            </td>
+                                            <td width="30" aria-label="Vertical Spacer">
+                                                <div style="width: 30px;"></div>
+                                            </td>
+                                            <td width="1" aria-label="Divider"
+                                                style="width: 1px; height: auto; border-bottom: none; border-left: 1px solid rgb(0, 0, 0);"></td>
+                                            <td width="30" aria-label="Vertical Spacer">
+                                                <div style="width: 30px;"></div>
+                                            </td>
+                                            <td style="vertical-align: middle;">
+                                                <table cellpadding="0" cellspacing="0" border="0"
+                                                    style="vertical-align: -webkit-baseline-middle; font-size: medium; font-family: Arial;">
+                                                    <tbody> 
+                                                        ${whatsappRow} <!-- Insere a linha do WhatsApp aqui -->
+                                                        <tr style="vertical-align: middle; height: 25px;">
+                                                            <td width="30" style="vertical-align: middle;">
+                                                                <table cellpadding="0" cellspacing="0" border="0"
+                                                                    style="vertical-align: -webkit-baseline-middle; font-size: medium; font-family: Arial;">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="vertical-align: bottom;">
+                                                                                <span style="display: inline-block;">
+                                                                                    <img
+                                                                                        src="https://cdn4.iconfinder.com/data/icons/aiga-symbol-signs/613/aiga_telephone_bg-512.png"
+                                                                                        alt="mobilePhone" width="13" style="display: block;">
+                                                                                </span>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                            <td style="padding: 0px; color: rgb(0, 0, 0);">
+                                                                <a href="tel:${telefoneLink}"
+                                                                    style="text-decoration: underline; color: #1155cc; font-size: 14px; cursor: pointer;">
+                                                                    <span>${telefone}</span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="vertical-align: middle; height: 25px;">
+                                                            <td width="30" style="vertical-align: middle;">
+                                                                <table cellpadding="0" cellspacing="0" border="0"
+                                                                    style="vertical-align: -webkit-baseline-middle; font-size: medium; font-family: Arial;">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="vertical-align: bottom;">
+                                                                                <span style="display: inline-block;">
+                                                                                    <img
+                                                                                        src="https://cdn4.iconfinder.com/data/icons/aiga-symbol-signs/612/aiga_mail_bg-256.png"
+                                                                                        alt="emailAddress" width="13">
+                                                                                </span>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                            <td style="padding: 0px; color: rgb(0, 0, 0);">
+                                                                <a href="mailto:${email}"
+                                                                    style="text-decoration: underline; color: #1155cc; font-size: 14px; cursor: pointer;">
+                                                                    <span>${email}</span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="vertical-align: middle; height: 25px;">
+                                                            <td width="30" style="vertical-align: middle;">
+                                                                <table cellpadding="0" cellspacing="0" border="0"
+                                                                    style="vertical-align: -webkit-baseline-middle; font-size: medium; font-family: Arial;">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="vertical-align: bottom;">
+                                                                                <span style="display: inline-block;">
+                                                                                    <img
+                                                                                        src="https://cdn4.iconfinder.com/data/icons/aiga-symbol-signs/612/aiga_information_bg-512.png"
+                                                                                        alt="website" width="13" style="display: block;">
+                                                                                </span>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                            <td style="padding: 0px; color: rgb(0, 0, 0);">
+                                                                <a href="https://${site}" target="_blank"
+                                                                    style="text-decoration: underline; color: #1155cc; font-size: 14px; cursor: pointer;">
+                                                                    <span>${site}</span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+
+            previewDiv.innerHTML = signatureHTML;
+        }
+
+        function copiarAssinatura() {
+            const range = document.createRange();
+            range.selectNode(previewDiv);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            try {
+                document.execCommand('copy');
+            } catch (err) {
+                console.error('Erro ao copiar a assinatura: ', err);
+            }
+            window.getSelection().removeAllRanges();
+        }
+
+        nomeInput.addEventListener('input', updateSignature);
+        cargoInput.addEventListener('input', updateSignature);
+        whatsappInput.addEventListener('input', updateSignature);
+        telefoneInput.addEventListener('input', updateSignature);
+        emailInput.addEventListener('input', updateSignature);
+        siteInput.addEventListener('input', updateSignature);
+        logoSelect.addEventListener('change', updateSignature);
+        showWhatsappCheckbox.addEventListener('change', updateSignature); // Novo event listener para o checkbox
+
+        document.addEventListener('DOMContentLoaded', updateSignature);
+    </script>
+</body>
+
+</html>
