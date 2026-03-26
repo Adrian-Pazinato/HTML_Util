@@ -89,7 +89,9 @@
         let selectedFiles = [];
 
         // Constants for processing
-        const WIDESCREEN_ASPECT_RATIO = 16 / 9;
+        const TARGET_WIDTH = 1920;
+        const TARGET_HEIGHT = 1080;
+        const WIDESCREEN_ASPECT_RATIO = TARGET_WIDTH / TARGET_HEIGHT;
         const DEFAULT_BLUR_RADIUS = 5;
         const DEFAULT_FG_SCALE = 1.0;
         const DEFAULT_BG_POSITION = 0;
@@ -172,11 +174,9 @@
                             const originalWidth = originalImage.width;
                             const originalHeight = originalImage.height;
 
-                            const targetWidth = Math.max(originalWidth, originalHeight * WIDESCREEN_ASPECT_RATIO);
-                            const targetHeight = targetWidth / WIDESCREEN_ASPECT_RATIO;
-
-                            offscreenCanvas.width = targetWidth;
-                            offscreenCanvas.height = targetHeight;
+                            // Define as dimensões do canvas com a nova resolução fixa de 1920x1080
+                            offscreenCanvas.width = TARGET_WIDTH;
+                            offscreenCanvas.height = TARGET_HEIGHT;
                             ctx.clearRect(0, 0, offscreenCanvas.width, offscreenCanvas.height);
 
                             // 1. Draw blurred background
