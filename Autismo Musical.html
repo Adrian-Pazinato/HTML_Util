@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autismo Musical</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3178/3178197.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --wood-dark: #3d2b1f;
@@ -42,7 +46,10 @@
         .container::before {
             content: "";
             position: absolute;
-            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
             border: 1px solid #e0d5c1;
             border-radius: 15px;
             pointer-events: none;
@@ -123,7 +130,7 @@
         .link-card.active:hover {
             transform: scale(1.02);
             background-color: #fcf9f2;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             border-left-color: var(--accent-green);
         }
 
@@ -143,15 +150,16 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
-        <h1>Autismo Musical</h1>
+        <h1>Analise de Artista</h1>
         <p class="subtitle">Insira o ID do Spotify</p>
-        
+
         <div class="input-group">
             <label for="artistId">ID do Spotify:</label>
-            <input type="text" id="artistId" placeholder="Cole aqui (ex: 6Ghvu1VvMGScGpOUJBAHNH)" autocomplete="off">
+            <input type="text" id="artistId" autocomplete="off">
         </div>
 
         <div class="links-area">
@@ -182,7 +190,7 @@
             everyNoise: "https://everynoise.com/artistprofile.cgi?id="
         };
 
-        inputField.addEventListener('input', function() {
+        inputField.addEventListener('input', function () {
             const value = this.value.trim();
 
             if (value.length > 0) {
@@ -211,4 +219,5 @@
         });
     </script>
 </body>
+
 </html>
