@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Arcano de Links</title>
+    <!-- Importação de fontes com estilo gótico e clássico -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Crimson+Text:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --container-bg: #151515;
+            --accent-red: #8b0000;
+            --text-silver: #d3d3d3;
+            --border-color: #333;
+            --glow: 0 0 10px rgba(139, 0, 0, 0.5);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-silver);
+            font-family: 'Crimson Text', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+        }
+
+        .gothic-container {
+            background-color: var(--container-bg);
+            padding: 3rem;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), var(--glow);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Detalhes ornamentais */
+        .gothic-container::before,
+        .gothic-container::after {
+            content: "♰";
+            position: absolute;
+            font-size: 24px;
+            color: var(--accent-red);
+        }
+
+        .gothic-container::before {
+            top: 10px;
+            left: 10px;
+        }
+
+        .gothic-container::after {
+            top: 10px;
+            right: 10px;
+        }
+
+        h1 {
+            font-family: 'MedievalSharp', cursive;
+            color: var(--accent-red);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px #000;
+            letter-spacing: 2px;
+        }
+
+        .input-group {
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        input[type="text"] {
+            background-color: #000;
+            border: 1px solid var(--accent-red);
+            color: var(--text-silver);
+            padding: 12px;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            box-shadow: var(--glow);
+            border-color: #ff0000;
+        }
+
+        .links-area {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .gothic-link {
+            display: block;
+            padding: 15px;
+            background: linear-gradient(145deg, #1a1a1a, #111);
+            color: var(--text-silver);
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .gothic-link.active {
+            opacity: 1;
+            pointer-events: auto;
+            border-color: var(--accent-red);
+        }
+
+        .gothic-link.active:hover {
+            background: var(--accent-red);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: var(--glow);
+        }
+
+        .gothic-link span {
+            display: block;
+            font-size: 0.7rem;
+            font-family: 'Crimson Text', serif;
+            margin-top: 5px;
+            word-break: break-all;
+            opacity: 0.8;
+        }
+
+        .placeholder-text {
+            color: #555;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="gothic-container">
+        <h1>Link Converter</h1>
+
+        <div class="input-group">
+            <label for="artistId">Invoque a Sequência de Caracteres:</label>
+            <input type="text" id="artistId" placeholder="Ex: 6Ghvu1VvMGScGpOUJBAHNH" autocomplete="off">
+        </div>
+
+        <div class="links-area">
+            <a href="#" id="link1" class="gothic-link" target="_blank">
+                ARTIST TOOLS
+                <span id="url1">https://app.artist.tools/artist/...</span>
+            </a>
+
+            <a href="#" id="link2" class="gothic-link" target="_blank">
+                EVERY NOISE
+                <span id="url2">https://everynoise.com/artistprofile.cgi?id=...</span>
+            </a>
+        </div>
+
+        <p id="status" class="placeholder-text" style="margin-top: 20px;">Aguardando entrada...</p>
+    </div>
+
+    <script>
+        const inputField = document.getElementById('artistId');
+        const link1 = document.getElementById('link1');
+        const link2 = document.getElementById('link2');
+        const urlDisplay1 = document.getElementById('url1');
+        const urlDisplay2 = document.getElementById('url2');
+        const statusText = document.getElementById('status');
+
+        const baseUrls = {
+            artistTools: "https://app.artist.tools/artist/",
+            everyNoise: "https://everynoise.com/artistprofile.cgi?id="
+        };
+
+        inputField.addEventListener('input', function () {
+            const value = this.value.trim();
+
+            if (value.length > 0) {
+                // Atualiza Link 1
+                const finalUrl1 = baseUrls.artistTools + value;
+                link1.href = finalUrl1;
+                urlDisplay1.textContent = finalUrl1;
+                link1.classList.add('active');
+
+                // Atualiza Link 2
+                const finalUrl2 = baseUrls.everyNoise + value;
+                link2.href = finalUrl2;
+                urlDisplay2.textContent = finalUrl2;
+                link2.classList.add('active');
+
+                statusText.textContent = "Os portais estão abertos.";
+                statusText.style.color = "#8b0000";
+            } else {
+                // Reseta estado se o campo estiver vazio
+                link1.href = "#";
+                link2.href = "#";
+                urlDisplay1.textContent = "https://app.artist.tools/artist/...";
+                urlDisplay2.textContent = "https://everynoise.com/artistprofile.cgi?id=...";
+                link1.classList.remove('active');
+                link2.classList.remove('active');
+                statusText.textContent = "Aguardando entrada...";
+                statusText.style.color = "#555";
+            }
+        });
+    </script>
+</body>
+
+</html>
