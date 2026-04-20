@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autismo Musical</title>
     <link rel="icon" type="image/png" href="https://win98icons.alexmeub.com/icons/png/cd_drive-0.png">
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&family=Open+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --aero-blue: #0078d7;
@@ -15,16 +16,17 @@
             --glass-bg: rgba(255, 255, 255, 0.7);
             --glass-border: rgba(255, 255, 255, 0.4);
             --text-dark: #1a3a5a;
-            --glossy-gradient: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            --glossy-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
         }
 
         body {
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 40%),
-                linear-gradient(180deg, #4facfe 0%, #00f2fe 45%, #2af598 100%);
-            background-attachment: fixed;
+            background-image: url('https://cdn.wallpaperhub.app/cloudcache/a/7/d/3/6/9/a7d369b7c8b4ecc0f0ffe790f233cbe58b7154c0.jpg');
             color: var(--text-dark);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -40,7 +42,7 @@
             left: -10%;
             width: 40%;
             height: 40%;
-            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
             z-index: -1;
         }
 
@@ -50,8 +52,8 @@
             -webkit-backdrop-filter: blur(15px);
             padding: 2.5rem;
             border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), 
-                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15),
+                inset 0 0 20px rgba(255, 255, 255, 0.5);
             max-width: 500px;
             width: 90%;
             text-align: center;
@@ -118,12 +120,12 @@
             text-align: center;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             outline: none;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
         input[type="text"]:focus {
             border-color: var(--aero-blue);
-            box-shadow: 0 0 15px rgba(0, 120, 215, 0.3), inset 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 0 15px rgba(0, 120, 215, 0.3), inset 0 2px 5px rgba(0, 0, 0, 0.05);
             transform: scale(1.02);
         }
 
@@ -147,7 +149,7 @@
             font-weight: 700;
             opacity: 0.6;
             pointer-events: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
 
         .link-card.active {
@@ -171,7 +173,7 @@
             color: #6a8ead;
             margin-top: 8px;
             word-break: break-all;
-            background: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.5);
             padding: 4px 10px;
             border-radius: 10px;
         }
@@ -186,8 +188,13 @@
         }
 
         @keyframes shine {
-            0% { background-position: -100% 0; }
-            100% { background-position: 200% 0; }
+            0% {
+                background-position: -100% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
         }
     </style>
 </head>
@@ -195,8 +202,8 @@
 <body>
 
     <div class="container">
-        <h1>---------</h1>
-
+        <h1>🪼🪼🪼🪼🪼🪼</h1>
+        <h2></h2>
         <div class="input-group">
             <label for="artistId">𝕥𝕙𝕖 𝕗𝕦𝕥𝕦𝕣𝕖 𝕚𝕤 𝕓𝕣𝕚𝕘𝕙𝕥</label>
             <input type="text" id="artistId" placeholder="Cole o ID aqui..." autocomplete="off">
@@ -212,6 +219,11 @@
                 Every Noise
                 <span id="url2">https://everynoise.com/artistprofile.cgi?id=...</span>
             </a>
+
+            <a href="#" id="link3" class="link-card" target="_blank" rel="noopener noreferrer">
+                Kworb Spotify
+                <span id="url3">https://kworb.net/spotify/artist/..._songs.html</span>
+            </a>
         </div>
 
         <p id="status">Aguardando entrada de dados...</p>
@@ -221,13 +233,19 @@
         const inputField = document.getElementById('artistId');
         const link1 = document.getElementById('link1');
         const link2 = document.getElementById('link2');
+        const link3 = document.getElementById('link3');
+
         const urlDisplay1 = document.getElementById('url1');
         const urlDisplay2 = document.getElementById('url2');
+        const urlDisplay3 = document.getElementById('url3');
+
         const statusText = document.getElementById('status');
 
         const baseUrls = {
             artistTools: "https://app.artist.tools/artist/",
-            everyNoise: "https://everynoise.com/artistprofile.cgi?id="
+            everyNoise: "https://everynoise.com/artistprofile.cgi?id=",
+            kworbPrefix: "https://kworb.net/spotify/artist/",
+            kworbSuffix: "_songs.html"
         };
 
         inputField.addEventListener('input', function () {
@@ -244,15 +262,26 @@
                 urlDisplay2.textContent = finalUrl2;
                 link2.classList.add('active');
 
+                const finalUrl3 = baseUrls.kworbPrefix + value + baseUrls.kworbSuffix;
+                link3.href = finalUrl3;
+                urlDisplay3.textContent = finalUrl3;
+                link3.classList.add('active');
+
                 statusText.textContent = "Sistema pronto. Clique nos links acima.";
                 statusText.style.color = "#32cd32";
             } else {
                 link1.href = "#";
-                link2.href = "#";
                 urlDisplay1.textContent = "https://app.artist.tools/artist/...";
-                urlDisplay2.textContent = "https://everynoise.com/artistprofile.cgi?id=...";
                 link1.classList.remove('active');
+
+                link2.href = "#";
+                urlDisplay2.textContent = "https://everynoise.com/artistprofile.cgi?id=...";
                 link2.classList.remove('active');
+
+                link3.href = "#";
+                urlDisplay3.textContent = "https://kworb.net/spotify/artist/..._songs.html";
+                link3.classList.remove('active');
+
                 statusText.textContent = "Aguardando entrada de dados...";
                 statusText.style.color = "#6a8ead";
             }
