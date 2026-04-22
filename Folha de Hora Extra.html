@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIDA - Autorização de Hora Extra</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            padding: 16px;
+        }
+
+        .controls-container {
+            max-width: 896px;
+            margin: 0 auto 32px auto;
+            padding: 24px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .controls-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1f2937;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .controls-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .control-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 4px;
+        }
+
+        .control-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 16px;
+            outline: none;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .control-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+        }
+
+        .print-btn {
+            width: 100%;
+            background-color: #2563eb;
+            color: #ffffff;
+            font-weight: 700;
+            font-family: inherit;
+            font-size: 16px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            height: 40px;
+        }
+
+        .print-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .document-page {
+            width: 210mm;
+            min-height: 148mm;
+            padding: 40px;
+            margin: 20px auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #000;
+            position: relative;
+        }
+
+        .header-container {
+            border: 1px solid #000;
+            padding: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        #logo-fida {
+            width: 140px;
+            height: auto;
+        }
+
+        .header-info {
+            text-align: right;
+            font-size: 12px;
+            line-height: 1.2;
+        }
+
+        .header-info h1 {
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 4px;
+        }
+
+        .header-info .company-name {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .title-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .main-title {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 0.2em;
+            border-bottom: 2px solid #000;
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        .document-content {
+            font-size: 18px;
+        }
+
+        .document-content>div {
+            margin-bottom: 32px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .form-row.gap-2 {
+            gap: 8px;
+        }
+
+        .whitespace-nowrap {
+            white-space: nowrap;
+        }
+
+        .line-input {
+            border: none;
+            border-bottom: 1px solid #000;
+            outline: none;
+            padding: 0 5px;
+            background: transparent;
+            font-family: inherit;
+            font-size: inherit;
+        }
+
+        .flex-grow {
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .ml-2 {
+            margin-left: 8px;
+        }
+
+        .font-bold {
+            font-weight: 700;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-blue-900 {
+            color: #1e3a8a;
+        }
+
+        .w-40 {
+            width: 160px;
+        }
+
+        .justificativa-wrapper {
+            padding-top: 16px;
+        }
+
+        .justificativa-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .justificativa-input {
+            width: 100%;
+            border: none;
+            outline: none;
+            resize: none;
+            line-height: 2.5rem;
+            background-image: linear-gradient(transparent, transparent 39px, #000 39px);
+            background-size: 100% 40px;
+            background-attachment: local;
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .signature-section {
+            margin-top: 80px !important;
+            display: flex;
+            justify-content: center;
+        }
+
+        .signature-box {
+            width: 75%;
+            text-align: center;
+        }
+
+        .signature-line {
+            border-top: 1px solid #000;
+            padding-top: 8px;
+        }
+
+        .signature-title {
+            font-size: 14px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .signature-input {
+            width: 100%;
+            text-align: center;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .document-page {
+                margin: 0;
+                box-shadow: none;
+                border: 2px solid #000;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="controls-container no-print">
+        <h2 class="controls-title">Controles de Preenchimento</h2>
+        <div class="controls-grid">
+            <div class="control-group">
+                <label class="control-label" for="inputInicio">Horário Inicial</label>
+                <input type="time" id="inputInicio" class="control-input">
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputFim">Horário Final</label>
+                <input type="time" id="inputFim" class="control-input">
+            </div>
+            <div class="control-group">
+                <button onclick="window.print()" class="print-btn">
+                    Imprimir Documento
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="document-page" id="printableArea">
+        <div class="header-container">
+            <div class="header-logo">
+                <img id="logo-fida" src="https://i.imghippo.com/files/zwd1348CAk.png" alt="Logo FIDA">
+            </div>
+
+            <div class="header-info">
+                <h1>FIDA</h1>
+                <p class="company-name">Irmãos Cioccari & Cia. Ltda.</p>
+                <p>BR 392 Km 253 - Fone: (55) 3281.1323</p>
+                <p>CEP: 96570-000 - Caçapava do Sul - RS</p>
+                <p>CNPJ: 87.675.831/0001-41</p>
+            </div>
+        </div>
+
+        <div class="title-container">
+            <h2 class="main-title">AUTORIZAÇÃO DE HORA EXTRA</h2>
+        </div>
+
+        <div class="document-content">
+            <div class="form-row">
+                <span class="whitespace-nowrap">Autorizo o Sr. (a)</span>
+                <input type="text" class="line-input flex-grow ml-2 font-bold"
+                    placeholder="Nome completo do colaborador">
+            </div>
+
+            <div class="form-row gap-2">
+                <span class="whitespace-nowrap">Setor:</span>
+                <input type="text" class="line-input flex-grow font-bold" placeholder="Setor">
+                <span class="whitespace-nowrap">, a realizar</span>
+                <input type="text" id="displayHoras" class="line-input w-40 text-center font-bold text-blue-900"
+                    placeholder="0 horas" readonly>
+            </div>
+
+            <div class="form-row gap-2">
+                <span class="whitespace-nowrap">extras, no dia</span>
+                <input type="date" class="line-input flex-grow font-bold">
+                <span class="whitespace-nowrap">.</span>
+            </div>
+
+            <div class="justificativa-wrapper">
+                <label class="justificativa-label">Justificativa da hora extra:</label>
+                <textarea class="justificativa-input" rows="3"></textarea>
+            </div>
+
+            <div class="signature-section">
+                <div class="signature-box">
+                    <div class="signature-line">
+                        <p class="signature-title">Assinatura e carimbo do encarregado</p>
+                        <input type="text" class="line-input signature-input" placeholder="(Nome do responsável)">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const inputInicio = document.getElementById('inputInicio');
+        const inputFim = document.getElementById('inputFim');
+        const displayHoras = document.getElementById('displayHoras');
+
+        function calcularHoras() {
+            const inicio = inputInicio.value;
+            const fim = inputFim.value;
+
+            if (inicio && fim) {
+                const [h1, m1] = inicio.split(':').map(Number);
+                const [h2, m2] = fim.split(':').map(Number);
+
+                let totalMinutos = (h2 * 60 + m2) - (h1 * 60 + m1);
+
+                if (totalMinutos < 0) {
+                    totalMinutos += 24 * 60;
+                }
+
+                const horas = Math.floor(totalMinutos / 60);
+                const minutos = totalMinutos % 60;
+
+                let resultado = "";
+                if (horas > 0) {
+                    resultado += horas + (horas === 1 ? " hora" : " horas");
+                }
+                if (minutos > 0) {
+                    resultado += (resultado ? " e " : "") + minutos + " min";
+                }
+
+                displayHoras.value = resultado || "0";
+            } else {
+                displayHoras.value = "";
+            }
+        }
+
+        inputInicio.addEventListener('change', calcularHoras);
+        inputFim.addEventListener('change', calcularHoras);
+    </script>
+</body>
+
+</html>
