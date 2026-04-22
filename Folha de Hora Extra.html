@@ -268,10 +268,14 @@
             font-style: italic;
         }
 
+        /* --- CONFIGURAÇÕES DE IMPRESSÃO ATUALIZADAS --- */
         @media print {
             body {
                 background: white;
                 padding: 0;
+                /* Força o navegador a imprimir cores e imagens de fundo */
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important; 
             }
 
             .no-print {
@@ -279,10 +283,25 @@
             }
 
             .document-page {
-                margin: 0;
+                margin: 0 auto;
                 box-shadow: none;
                 border: 2px solid #000;
                 width: 100%;
+                max-width: 210mm; 
+                
+                /* Reduz o tamanho do documento impresso para 90% */
+                transform: scale(0.9); 
+                transform-origin: top center;
+            }
+
+            /* Garante que a linha inferior dos campos não seja ignorada */
+            .line-input {
+                border-bottom: 1px solid #000 !important;
+            }
+
+            /* Garante que o fundo pautado da justificativa apareça no papel */
+            .justificativa-input {
+                background-image: linear-gradient(transparent, transparent 39px, #000 39px) !important;
             }
         }
     </style>
@@ -358,7 +377,7 @@
                 <div class="signature-box">
                     <div class="signature-line">
                         <p class="signature-title">Assinatura e carimbo do encarregado</p>
-                        <input type="text" class="line-input signature-input" placeholder="(Nome do responsável)">
+                        <input type="text" class="line-input signature-input" placeholder="">
                     </div>
                 </div>
             </div>
