@@ -268,14 +268,12 @@
             font-style: italic;
         }
 
-        /* --- CONFIGURAÇÕES DE IMPRESSÃO ATUALIZADAS --- */
         @media print {
             body {
                 background: white;
                 padding: 0;
-                /* Força o navegador a imprimir cores e imagens de fundo */
                 -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important; 
+                print-color-adjust: exact !important;
             }
 
             .no-print {
@@ -287,19 +285,16 @@
                 box-shadow: none;
                 border: 2px solid #000;
                 width: 100%;
-                max-width: 210mm; 
-                
-                /* Reduz o tamanho do documento impresso para 90% */
-                transform: scale(0.9); 
+                max-width: 210mm;
+
+                transform: scale(0.9);
                 transform-origin: top center;
             }
 
-            /* Garante que a linha inferior dos campos não seja ignorada */
             .line-input {
                 border-bottom: 1px solid #000 !important;
             }
 
-            /* Garante que o fundo pautado da justificativa apareça no papel */
             .justificativa-input {
                 background-image: linear-gradient(transparent, transparent 39px, #000 39px) !important;
             }
@@ -350,80 +345,79 @@
         <div class="document-content">
             <div class="form-row">
                 <span class="whitespace-nowrap">Autorizo o Sr. (a)</span>
-                <input type="text" class="line-input flex-grow ml-2 font-bold"
-                    placeholder="Nome completo do colaborador">
+                <input type="text" class="line-input flex-grow ml-2 font-bold">
             </div>
 
-            <div class="form-row gap-2">
-                <span class="whitespace-nowrap">Setor:</span>
-                <input type="text" class="line-input flex-grow font-bold" placeholder="Setor">
-                <span class="whitespace-nowrap">, a realizar</span>
-                <input type="text" id="displayHoras" class="line-input w-40 text-center font-bold text-blue-900"
-                    placeholder="0 horas" readonly>
-            </div>
+                <div class="form-row gap-2">
+                    <span class="whitespace-nowrap">Setor:</span>
+                    <input type="text" class="line-input flex-grow font-bold">
+                    <span class="whitespace-nowrap">, a realizar</span>
+                    <input type="text" id="displayHoras" class="line-input w-40 text-center font-bold text-blue-900"
+                        placeholder="0 horas" readonly>
+                </div>
 
-            <div class="form-row gap-2">
-                <span class="whitespace-nowrap">extras, no dia</span>
-                <input type="date" class="line-input flex-grow font-bold">
-                <span class="whitespace-nowrap">.</span>
-            </div>
+                <div class="form-row gap-2">
+                    <span class="whitespace-nowrap">extras, no dia</span>
+                    <input type="date" class="line-input flex-grow font-bold">
+                    <span class="whitespace-nowrap">.</span>
+                </div>
 
-            <div class="justificativa-wrapper">
-                <label class="justificativa-label">Justificativa da hora extra:</label>
-                <textarea class="justificativa-input" rows="3"></textarea>
-            </div>
+                <div class="justificativa-wrapper">
+                    <label class="justificativa-label">Justificativa da hora extra:</label>
+                    <textarea class="justificativa-input" rows="3"></textarea>
+                </div>
 
-            <div class="signature-section">
-                <div class="signature-box">
-                    <div class="signature-line">
-                        <p class="signature-title">Assinatura e carimbo do encarregado</p>
-                        <input type="text" class="line-input signature-input" placeholder="">
+                <div class="signature-section">
+                    <div class="signature-box">
+                        <div class="signature-line">
+                            <p class="signature-title">Assinatura e carimbo do encarregado</p>
+                            <input type="text" class="line-input signature-input" placeholder="">
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
-    </div>
+        <script>
+            const inputInicio = document.getElementById('inputInicio');
+            const inputFim = document.getElementById('inputFim');
+            const displayHoras = document.getElementById('displayHoras');
 
-    <script>
-        const inputInicio = document.getElementById('inputInicio');
-        const inputFim = document.getElementById('inputFim');
-        const displayHoras = document.getElementById('displayHoras');
+            function calcularHoras() {
+                const inicio = inputInicio.value;
+                const fim = inputFim.value;
 
-        function calcularHoras() {
-            const inicio = inputInicio.value;
-            const fim = inputFim.value;
+                if (inicio && fim) {
+                    const [h1, m1] = inicio.split(':').map(Number);
+                    const [h2, m2] = fim.split(':').map(Number);
 
-            if (inicio && fim) {
-                const [h1, m1] = inicio.split(':').map(Number);
-                const [h2, m2] = fim.split(':').map(Number);
+                    let totalMinutos = (h2 * 60 + m2) - (h1 * 60 + m1);
 
-                let totalMinutos = (h2 * 60 + m2) - (h1 * 60 + m1);
+                    if (totalMinutos < 0) {
+                        totalMinutos += 24 * 60;
+                    }
 
-                if (totalMinutos < 0) {
-                    totalMinutos += 24 * 60;
+                    const horas = Math.floor(totalMinutos / 60);
+                    const minutos = totalMinutos % 60;
+
+                    let resultado = "";
+                    if (horas > 0) {
+                        resultado += horas + (horas === 1 ? " hora" : " horas");
+                    }
+                    if (minutos > 0) {
+                        resultado += (resultado ? " e " : "") + minutos + " min";
+                    }
+
+                    displayHoras.value = resultado || "0";
+                } else {
+                    displayHoras.value = "";
                 }
-
-                const horas = Math.floor(totalMinutos / 60);
-                const minutos = totalMinutos % 60;
-
-                let resultado = "";
-                if (horas > 0) {
-                    resultado += horas + (horas === 1 ? " hora" : " horas");
-                }
-                if (minutos > 0) {
-                    resultado += (resultado ? " e " : "") + minutos + " min";
-                }
-
-                displayHoras.value = resultado || "0";
-            } else {
-                displayHoras.value = "";
             }
-        }
 
-        inputInicio.addEventListener('change', calcularHoras);
-        inputFim.addEventListener('change', calcularHoras);
-    </script>
+            inputInicio.addEventListener('change', calcularHoras);
+            inputFim.addEventListener('change', calcularHoras);
+        </script>
 </body>
 
 </html>
