@@ -106,7 +106,6 @@
             box-shadow: 0 0 0 1px var(--color-indigo-500);
         }
 
-        /* Tabela Dinâmica */
         .table-container {
             overflow-x-auto;
             border: 1px solid var(--color-gray-300);
@@ -117,7 +116,6 @@
             min-width: 100%;
             border-collapse: collapse;
             table-layout: fixed;
-            /* Ajuda a manter o layout consistente */
         }
 
         .time-table thead {
@@ -161,7 +159,6 @@
             box-shadow: none;
         }
 
-        /* Botão Adicionar Linha */
         .add-row-container {
             margin-top: 1rem;
             display: flex;
@@ -202,7 +199,6 @@
             margin-right: 0.25rem;
         }
 
-        /* Botão Remover Linha */
         .btn-remove {
             padding: 0.25rem;
             color: var(--color-red-500);
@@ -218,7 +214,6 @@
             cursor: not-allowed;
         }
 
-        /* Assinaturas */
         .signature-container {
             display: flex;
             justify-content: space-between;
@@ -244,7 +239,6 @@
             color: var(--color-gray-700);
         }
 
-        /* Botão Imprimir */
         .print-area {
             margin-top: 3rem;
             padding-top: 1.5rem;
@@ -289,7 +283,6 @@
         }
 
 
-        /* Responsividade para Telas Menores */
         @media (max-width: 768px) {
             .document-container {
                 padding: 2rem;
@@ -312,7 +305,6 @@
             }
         }
 
-        /* Estilo para inputs na impressão */
         @media print {
             body {
                 background-color: white !important;
@@ -328,13 +320,11 @@
 
             input,
             textarea {
-                /* Remove bordas e fundo dos inputs e textareas para impressão limpa */
                 border: none !important;
                 background-color: transparent !important;
                 box-shadow: none !important;
                 padding: 0 !important;
                 margin: 0 !important;
-                /* Garante que a cor do texto seja impressa */
                 -webkit-print-color-adjust: exact;
                 color-adjust: exact;
             }
@@ -372,7 +362,6 @@
         <div class="space-y-6">
             <h2 class="section-title">Dados da Autorização</h2>
 
-            <!-- Campo Nome do Funcionário -->
             <div class="input-group">
                 <label for="nomeFuncionario" class="input-label">Nome do Funcionário:</label>
                 <input id="nomeFuncionario" type="text" value="Adrian Pazinato" class="input-field"
@@ -381,7 +370,6 @@
 
             <h2 class="section-title">Datas e Horários do Registro</h2>
 
-            <!-- Tabela Dinâmica de Horários -->
             <div class="table-container">
                 <table class="time-table">
                     <thead>
@@ -395,12 +383,10 @@
                         </tr>
                     </thead>
                     <tbody id="timeEntryBody">
-                        <!-- Linhas de data e horário serão adicionadas aqui pelo JavaScript -->
                     </tbody>
                 </table>
             </div>
 
-            <!-- Botão para Adicionar Linha -->
             <div class="add-row-container print-hidden">
                 <button id="addRowButton" onclick="addRow()" class="btn-add"
                     aria-label="Adicionar nova linha de data e horário">
@@ -413,11 +399,10 @@
             </div>
 
 
-            <!-- Motivo -->
             <div class="input-group">
                 <p class="input-label">Motivo da Autorização:</p>
                 <textarea id="motivo" rows="3" class="input-field"
-                    aria-label="Motivo da Autorização">Sem batida de ponto devido a ida a filial de Pantano e Escritório.</textarea>
+                    aria-label="Motivo da Autorização">Sem batida de ponto devido à ida às filial de .</textarea>
             </div>
 
             <div class="signature-container">
@@ -438,7 +423,7 @@
                             d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m0 0v1a2 2 0 002 2h2a2 2 0 002-2v-1m-4 1H9">
                         </path>
                     </svg>
-                    Imprimir Documento
+                    Imprimir
                 </button>
             </div>
         </div>
@@ -452,7 +437,7 @@
 
         function createRow(initialDate = '') {
             const row = document.createElement('tr');
-            row.classList.add('time-row'); // Classe para fácil contagem/seleção
+            row.classList.add('time-row');
 
             const createInput = (type, value, label) => `
                 <input type="${type}" value="${value}"
